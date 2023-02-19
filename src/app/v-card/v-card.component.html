@@ -1,0 +1,381 @@
+<div *ngIf="!previewLogo">
+    
+    <div class="row vcard-bg"  [style.background]="userInfo.primaryColor" [ngClass]="isPreview ? 'no-gutters': 'pt-3' " >
+        <div class="col"></div>
+        <div [ngClass]="isPreview ? 'col-12' : 'col-12 col-md-5 mt-5'" class="">
+            <div class="vcard-boxshadow">
+                <div class="row vc-hr no-gutters">
+                    <div class="col"></div>
+                    <div class="col-12 col-md-6">
+                        <div class="text-center">
+                            <h4 class="py-3"></h4>
+                            <div class="mx-auto"  >                            
+                                <mat-spinner *ngIf="loading" style="margin:0 auto;"  mode="indeterminate"></mat-spinner>
+                                <img *ngIf="!loading" class="vcard-pro-pic" [src]="userInfo.image" alt="">
+                                <div class="vcard-name">{{userInfo.firstName || 'Jane' }} {{userInfo.lastName || 'Doe'}} </div>
+                                <div class="vcard-title" >{{userInfo.job || 'Designer' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+
+                </div>
+                <div class="row no-gutters">
+                    <div class="vc-hr-r vc-btn py-2" [ngClass]="userInfo.address ? 'col-4' : 'col-6' "   [style.background]="userInfo.primaryColor" >
+                        <div class="vc-btn-icon">
+                            <a [href]="'tel:'+userInfo.mobile">
+                                <mat-icon aria-hidden="false" fontIcon="call"></mat-icon>
+                                <div> CALL </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="py-2 vc-btn" [ngClass]="userInfo.address ? 'col-4 vc-hr-r ' : 'col-6' "  [style.background]="userInfo.primaryColor" >
+                        <div class="vc-btn-icon ">                        
+                            <a [href]="'mailto:'+userInfo.email" target="_newEmail">                                
+                                <mat-icon aria-hidden="false" fontIcon="send"></mat-icon>
+                                <div>EMAIL</div> 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-4 py-2 vc-btn" *ngIf="userInfo.address"  [style.background]="userInfo.primaryColor" >
+                        <div class="vc-btn-icon ">                        
+                            <a (click)="gotoLocation()">                                
+                                <mat-icon aria-hidden="false" fontIcon="location_on"></mat-icon>
+                                <div>Direction</div> 
+                            </a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+    <div class="row" style="background: #F7F7F7;" >
+        <div class="col"></div>
+        <div [ngClass]="isPreview ? 'col-12' : 'col-12 col-md-5' ">
+            <div class="vcard-boxshadow" *ngIf="!loading">
+                <div class="row no-gutters">
+                    <div class="col-2"></div>
+                    <div class="col-9 border-bottom  py-4 ">
+                        {{userInfo.summary || 'Seeking for freelance work with over 10 years of graphic design experience. Feel free to get in touch!' }}
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-2 vc2-icon">
+                        <mat-icon aria-hidden="false" fontIcon="call"></mat-icon>    
+                    </div>
+                    <div class="col-9 border-bottom py-3">
+                        <div class="py-2">
+                            <div>{{userInfo.mobile || '+1-555-555-1234'}}</div> 
+                            <div class="vc-item-label">Mobile</div>
+                        </div>
+                        <div class="py-3" *ngIf="userInfo.phone">
+                            <div>{{userInfo.phone}}</div> 
+                            <div class="vc-item-label">Telephone</div>
+                        </div>
+                        <div class="py-3" *ngIf="userInfo.fax">
+                            <div>{{userInfo.fax}}</div> 
+                            <div class="vc-item-label">Fax</div>
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                
+                <div class="row no-gutters" *ngIf="userInfo.email">
+                    <div class="col-2 vc2-icon">
+                        <mat-icon aria-hidden="false" fontIcon="mail"></mat-icon>    
+                    </div>
+                    <div class="col-9 border-bottom py-3">
+                    <div>{{userInfo.email || 'jane@email.com'}}</div> 
+                    <div class="vc-item-label">Email</div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>            
+                <div class="row no-gutters" *ngIf="userInfo.job || userInfo.company ">
+                    <div class="col-2 vc2-icon">
+                        <mat-icon aria-hidden="false" fontIcon="work"></mat-icon>    
+                    </div>
+                    <div class="col-9 border-bottom py-3">
+                    <div>{{userInfo.company}}</div> 
+                    <div class="vc-item-label">{{userInfo.job}}</div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>     
+                        
+                <div class="row no-gutters" *ngIf="userInfo.address ">
+                    <div class="col-2 vc2-icon">
+                        <mat-icon aria-hidden="false" fontIcon="location_on"></mat-icon>    
+                    </div>
+                    <div class="col-9 border-bottom py-3">
+                    <div>{{userInfo.address}}</div> 
+                    </div>
+                    <div class="col-1"></div>
+                </div>       
+                <div class="row no-gutters" *ngIf="userInfo.website">
+                    <div class="col-2 vc2-icon">
+                        <mat-icon aria-hidden="false" fontIcon="language"></mat-icon>    
+                    </div>
+                    <div class="col-9 border-bottom py-3">
+                    <div>{{userInfo.website}}</div> 
+                    <div class="vc-item-label">Website</div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>      
+                <div class="row no-gutters" *ngIf="userInfo.selectedSM.length > 0">
+                    <div class="col-2 vc2-icon"> </div>
+                    <div class="col-9 border-bottom py-3">
+                        <div class="panel-label mb-3">Social Media</div>
+                        <div>
+                            <span *ngFor="let s of userInfo.selectedSM">
+                                <span *ngIf="s.value" class="sm-vc clickable " (click)="navigateShare(s.name, s.value)">
+                                    <!-- <i [ngClass]="s.icon" [style.color]="s.iconColor"></i> -->
+                                    <i  *ngIf="s.name !== 'DoorDash' &&
+                                        s.name !== 'Tripadvisor' && 
+                                        s.name !== 'Postmates' &&
+                                        s.name !== 'Grubhub' &&
+                                        s.name !== 'OpenTable' &&
+                                        s.name !== 'Uber Eats' &&
+                                        s.name !== 'Apple Music' "  
+                                        [className]="s.icon" [style.color]="s.iconColor" >
+                                    </i>
+                                    <img *ngIf="s.name == 'DoorDash' || 
+                                        s.name == 'Tripadvisor' || 
+                                        s.name == 'Postmates' ||
+                                        s.name == 'Grubhub' ||
+                                        s.name == 'OpenTable' ||
+                                        s.name == 'Uber Eats' ||
+                                        s.name == 'Apple Music' "  
+                                        [src]="s.icon" alt="" srcset="" height="35px" width="35px">
+                                </span>
+                                <span *ngIf="!s.value" class="sm-vc clickable" >
+                                    <!-- <i [ngClass]="s.icon" [style.color]="s.iconColor"></i> -->
+                                    
+                                    <i  *ngIf="s.name !== 'DoorDash' &&
+                                        s.name !== 'Tripadvisor' && 
+                                        s.name !== 'Postmates' &&
+                                        s.name !== 'Grubhub' &&
+                                        s.name !== 'OpenTable' &&
+                                        s.name !== 'Uber Eats' &&
+                                        s.name !== 'Apple Music' "  
+                                        [className]="s.icon" [style.color]="s.iconColor" >
+                                    </i>
+                                    <img *ngIf="s.name == 'DoorDash' || 
+                                        s.name == 'Tripadvisor' || 
+                                        s.name == 'Postmates' ||
+                                        s.name == 'Grubhub' ||
+                                        s.name == 'OpenTable' ||
+                                        s.name == 'Uber Eats' ||
+                                        s.name == 'Apple Music' "  
+                                        [src]="s.icon" alt="" srcset="" height="35px" width="35px" class="pb-1" >
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+
+
+                <!-- style="z-index: 1012; overflow: hidden; position: fixed; bottom: 120px; right: 58px;" -->
+                    
+                <div class="row" >
+                    <div class="col-2 vc2-icon"></div>
+                    <div class="col-9 hide-xs  py-3" *ngIf="!isPreview">
+                        <button class="btn btn-lg btn-success2 btn-block box-shadow2" (click)="saveModal = true" [style.background]="userInfo.buttonColor">
+                            <mat-icon class="py-1 mr-2">person_add</mat-icon> Download VCARD
+                        </button>
+                    </div>
+                    <div class="col-1"></div>
+                </div>  
+                <div class="row">
+                    <div class="col-2 vc2-icon"></div>
+                    <div class="col-9  hide-xs py-3" *ngIf="!isPreview && userInfo.enableShare">
+                        <button class="btn btn-lg  btn-block box-shadow2" (click)="shareModal = true">
+                            <mat-icon class="py-1 mr-2">share</mat-icon> Share This Page
+                        </button>
+                    </div>
+                    <div class="col-1"></div>
+                </div>  
+
+                <!-- <div class="show-xs">
+                    
+                    <div class="col-2 vc2-icon"></div>
+                    
+                    <div class="col-9 py-3" *ngIf="isPreview">
+                        <button class=" float-right" mat-fab color="success2" [style.background]="userInfo.buttonColor">
+                            <mat-icon>person_add</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-9  show-xs py-3" *ngIf="!isPreview">
+                        <button class=" float-right" mat-fab color="success2" (click)="saveModal = true"  [style.background]="userInfo.buttonColor">
+                            <mat-icon>person_add</mat-icon>
+                        </button>
+                    </div>
+
+
+                    
+                    <div class="col-2 vc2-icon"></div>
+                    <div class="col-9 py-3" *ngIf="isPreview && userInfo.enableShare">
+                        <button class="float-right" mat-fab color="white">
+                            <mat-icon>share</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-9 show-xs py-3" *ngIf="!isPreview && userInfo.enableShare">
+                        <button class="float-right" mat-fab color="white" (click)="shareModal = true">
+                            <mat-icon>share</mat-icon>
+                        </button>
+                    </div>
+
+                </div> -->
+
+
+
+
+                
+                <div class="mobile-float-btn"> 
+                    <div *ngIf="!isPreview">
+                        <button class=" float-right" mat-fab color="success2" (click)="saveModal = true"  [style.background]="userInfo.buttonColor">
+                            <mat-icon>person_add</mat-icon>
+                        </button>
+                    </div>
+                    <div  *ngIf="!isPreview && userInfo.enableShare">
+                        <button class="float-right mt-3" mat-fab color="white" (click)="shareModal = true">
+                            <mat-icon>share</mat-icon>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="row" *ngIf="isPreview">   
+                    <div class="col-9"></div>
+                    <div class="col-2">
+                        <button class=" float-right" mat-fab color="success2"  [style.background]="userInfo.buttonColor">
+                            <mat-icon>person_add</mat-icon>
+                        </button>
+                    </div>
+                    
+                    <div class="col-9"></div>
+                    <div class="col-2"  *ngIf="userInfo.enableShare">
+                        <button class="float-right mt-3" mat-fab color="white">
+                            <mat-icon>share</mat-icon>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+            <div *ngIf="!isPreview && loading" class="text-center mt-5">
+                <mat-spinner style="margin:0 auto;"  mode="indeterminate"></mat-spinner>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+</div>
+
+<div *ngIf="previewLogo" class="preview-logo">
+    <mat-progress-bar mode="indeterminate" ></mat-progress-bar>
+
+    <img *ngIf="userInfo.logoImage" [src]="userInfo.logoImage" alt="" srcset="" >
+
+
+</div>
+
+
+
+
+<div class="modal1 fade in " [ngClass]="{'show': saveModal && !isPreview}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-sm modal1-dialog-centered wid-300" role="document">
+      <div class="modal1-content ">
+        <div class="modal1-body">
+            <div class="row">
+                <div class="col-12">
+                    
+                    <div *ngIf="shareEmail" class="clickable" data-dismiss="modal1" aria-label="Close" (click)='shareEmail = false'>
+                        <mat-icon class="float-left">arrow_back</mat-icon>
+                    </div>
+                    <div  class="clickable" data-dismiss="modal1" aria-label="Close" (click)='saveModal = false; shareEmail = false '>
+                        <mat-icon class="float-right">close</mat-icon>
+                    </div>
+                </div>
+                <div class="col-12 mt-3" *ngIf="!shareEmail">
+                    <div style="color: #81C784 ;">Save Contact Data</div>
+                     How would you like to save contact data?
+                </div>
+                <div class="col-2 modal-item mt-3" *ngIf="!shareEmail">
+                    <i class="fa-solid fa-envelope clickable"></i>
+                </div>
+                <div *ngIf="!shareEmail" class="col-10 modal-item mt-3 clickable" (click)="shareEmail = true" >Send By Email</div>
+
+                
+                <div class="col-2 modal-item mt-2" *ngIf="!shareEmail">
+                    <i class="fa-solid fa-download"></i>
+                </div>
+                <div *ngIf="!shareEmail" class="col-10 modal-item mt-2 clickable" [vcdDownloadVCard]="vCard">Save to My Phone</div>
+                
+                <div class="col-12" *ngIf="shareEmail">
+                    
+                    <div style="color: #81C784 ;">Send By Email</div>
+                    Send contact details using email.
+
+                    <input type="email" class="form-control" >
+                    
+                    <button class="btn btn-lg btn-success2 btn-block mt-1" (click)="shareEmail = false">
+                        SEND
+                    </button>
+
+                </div>
+                
+            </div>
+        </div> 
+      </div>
+    </div>
+</div>
+
+
+<div class="modal1 fade in " [ngClass]="{'show': shareModal && !isPreview}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-sm modal1-dialog-centered wid-300" role="document">
+      <div class="modal1-content ">
+        <div class="modal1-body">
+            <div class="row">
+                <div class="col-12">
+                    <div  class="clickable" data-dismiss="modal1" aria-label="Close" (click)='shareModal = false '>
+                        <mat-icon class="float-right">close</mat-icon>
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <div style="color: #81C784 ;">Share</div>
+                </div>
+
+                
+                <div class="col-2 modal-item  text-center" (click)="navigateShare('Facebook', 'qrlink')"> <i class="fa-brands fa-facebook clickable" style="color: #3B5998 ;"></i> </div>
+                <div class="col-10 modal-item  clickable" (click)="navigateShare('Facebook', 'qrlink')">Facebook</div>
+                
+                <div class="col-2 modal-item  text-center" (click)="navigateShare('Twitter', 'qrlink')"> <i class="fa-brands fa-twitter clickable" style="color: #1DA1F2"></i> </div>
+                <div class="col-10 modal-item  clickable" (click)="navigateShare('Twitter', 'qrlink')">Twitter</div>
+
+                <div class="col-2 modal-item  text-center" (click)="navigateShare('Whatsapp', 'qrlink')" > <i class="fa-brands fa-whatsapp clickable" style="color: #25D366"></i> </div>
+                <div class="col-10 modal-item  clickable" (click)="navigateShare('Whatsapp', 'qrlink')">Whatsapp</div>
+
+                <div class="col-2 modal-item  text-center" (click)="navigateShare('mail', 'qrlink')"> <i class="fa-solid fa-envelope clickable"></i> </div>
+                <div class="col-10 modal-item  clickable" (click)="navigateShare('mail', 'qrlink')">Email</div>
+                
+                <div class="col-2 modal-item  text-center"> <i class="fa-solid fa-message clickable"></i> </div>
+                <div class="col-10 modal-item  clickable">
+                    <div class="dis-flex">
+                        <input type="text" name="" id="" class="form-control form-control-sm w-75 mr-2 p-1" [(ngModel)]="qrCode" >
+                         
+                        <span class="border px-2" (click)="copyText(qrCode)">Copy</span>
+                    </div>
+                    <small *ngIf="iscopyed" >Text copied to clipboard</small>
+                </div>
+
+                
+            </div>
+        </div> 
+      </div>
+    </div>
+</div>

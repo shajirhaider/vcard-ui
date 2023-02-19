@@ -1,0 +1,39 @@
+<mat-toolbar class="mat-elevation-z2" style="position: sticky ; top: 0; z-index: 1000;">
+    <span></span>
+</mat-toolbar>
+<div class="row mt-3">
+    <!-- <div class="col-12 col-md-4 text-right">
+        
+    </div> -->
+    <div class="col-12 col-md-1"></div>
+    <div class="col-12 col-md-8 text-center">      
+        <div class="codetype-menu mt-5" [class.active]="checked" (click)="checked = !checked">
+            <div class="row">
+                <div class="col-12 text-center"><h4><i class="fa-regular fa-address-card"></i></h4> </div>
+                <div class="col-12 text-center mt-3">
+                    <h4>DBC (Digital Business Card)</h4>
+                    <small class="text-ellipsis" title="Share personalized contact details">
+                        make your business card digital, share personalized contact details                    
+                    </small>
+                    <span class="active-check" *ngIf="checked" >
+                        <i class="fa-solid fa-circle-check text-right "></i>
+                    </span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-3" *ngIf="checked">
+        <div style="height: 500px; overflow-y:auto; overflow-x: hidden;" >
+            <app-v-card [userInfo]="" [isPreview]="true" ></app-v-card>
+        </div>
+    </div>
+</div>
+<div class="footer py-2">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-12 col-md-4"><button class="w-80" mat-flat-button color="success" routerLink="/create/new">Next</button></div>
+        <div class="col"></div>
+    </div>
+    
+</div>

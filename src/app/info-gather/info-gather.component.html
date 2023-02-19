@@ -1,0 +1,647 @@
+<mat-toolbar class="mat-elevation-z2" style="position: sticky ; top: 0; z-index: 1000;">
+    <span routerLink="" class="clickable"> <mat-icon>arrow_back</mat-icon> </span>
+  </mat-toolbar>
+<div class="row">
+    <div class="col"></div>
+    <div class="col-12 col-md-10">
+        <div class="row mt-3">
+            <div class="col-12 col-md-8">
+                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border mb-2">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title style="width: 100%;">
+                            <span class="panel-icon">
+                                <mat-icon aria-hidden="false" fontIcon="draw"></mat-icon>
+                            </span>    
+                            <span class="panel-title"> Design & Customize your vCard</span>    
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-12 col-md-10">
+                            <div class="row">
+                                <div class="col-12 my-3 text-muted">
+                                    Perssonalize your vCard by selecting colors and uploading an image.
+                                </div>
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Colors:</div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8 mb-2">
+                                    <div class="row">
+                                        <div class="col-3 col-md-2 mb-2 mr-2" *ngFor="let t of themes">
+                                            <img [src]="t.img" alt="" class="border clickable" srcset="" height="65px"  width = "65px" (click)="userInfo.primaryColor = t.primary; userInfo.buttonColor = t.button ">
+                                        </div>
+                                        <div class="col-12"></div>
+
+                                        <div class="col-5 col-md-5 mt-5 ">
+                                            <div class="semi-label mb-2">Primary</div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control w-25" [(ngModel)]="userInfo.primaryColor" >
+                                                <span class="input-group-text">
+                                                    <input class="colorPicker clickable" [(colorPicker)]="userInfo.primaryColor" [style.background]="userInfo.primaryColor"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-md-2 mt-5 pt-4 text-center">
+                                            <div (click)="interChangeColor()" class="clickable">
+                                                <div><i class="fa-solid fa-arrow-right-long"></i></div>
+                                                <div><i class="fa-solid fa-arrow-left-long"></i></div>
+                                            </div>
+                                                      
+                                        </div>
+                                        <div class="col-5 col-md-5 mt-5 ">
+                                            <div class="semi-label mb-2">Button</div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control w-25" [(ngModel)]="userInfo.buttonColor" >
+                                                <span class="input-group-text">
+                                                    <input class="colorPicker clickable" [(colorPicker)]="userInfo.buttonColor" [style.background]="userInfo.buttonColor"/>
+                                                </span>
+                                              </div>
+                                        </div>
+
+                                        <!-- <div class="col-12 mt-5">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="userInfo.useGradient" [checked]="userInfo.useGradient" (input)="createGradient()" >
+                                                <span class="form-check-label" for="flexCheckDefault">
+                                                    Use color gradient
+                                                </span>
+                                              </div>
+                                              
+                                            <div class="semi-label my-2">Gradient</div>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control w-25" [(ngModel)]="userInfo.gradient" >
+                                                <span class="input-group-text">
+                                                    <input class="colorPicker clickable" [(colorPicker)]="userInfo.gradient" [style.background]="userInfo.gradient"/>
+                                                </span>
+                                              </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col"></div>
+
+                    </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border mb-2">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title style="width: 100%;">
+                            <span class="panel-icon">
+                                <mat-icon aria-hidden="false" fontIcon="info"></mat-icon>
+                            </span>    
+                            <span class="panel-title"> Your Information</span>    
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-12 col-md-10">
+                            <div class="row">
+                                <div class="col-12 my-3 text-muted">
+                                    Please, Fill in your contact details. Not all fields are mandatory.
+                                </div>
+                            </div>
+                            <div class="row">                        
+                                <div class="col-6 col-md-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Image:</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-10">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div *ngIf="!croppedImage" style="border-radius: 50%; height: 80px; width: 80px;" class="bg-light text-muted text-center pt-3"  >No Image uploaded</div>
+                                            <img *ngIf = "croppedImage" [src]="croppedImage" height="80" width="80" style="border-radius: 50%;" />   
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="choose-file btn btn-upload mt-3 clickable">
+                                                Upload
+                                                <input type="file" class=" hide_file" (change)="fileChangeEvent($event)" /> 
+                                              </div>
+                                         </div>
+                                    </div>                                 
+                                </div>
+                                
+                                <hr class="w-100  my-3">
+                            </div>
+                            
+                            <div class="row">                        
+                                <div class="col-12 col-md-2 mb-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Name:</div>
+                                    </div>
+                                </div>
+                                                    
+                                <div class="col-12 col-md-5 mb-2">
+                                    <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="userInfo.firstName" (input)="validDateData()">
+                                    <div class="text-error" *ngIf="hasError && !userInfo.firstName">Please indicate at least one of the following: First name, Last name or Company </div>
+                                </div>
+                                <div class="col-12 col-md-5 mb-3">
+                                    <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="userInfo.lastName" (input)="validDateData()">
+                                    <div class="text-error" *ngIf="hasError && !userInfo.lastName">Please indicate at least one of the following: First name, Last name or Company </div>
+
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">                        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Numbers:</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-10 col mb-3">
+                                    <input type="text" class="form-control" placeholder="Mobile Number" [(ngModel)]="userInfo.mobile">
+                                </div>
+                                       
+                                <div class="col-12 col-md-2 mb-2"></div>
+                                                    
+                                <div class="col-12 col-md-5 mb-3">
+                                    <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="userInfo.phone">
+                                </div>
+                                <div class="col-12 col-md-5 mb-3">
+                                    <input type="text" class="form-control" placeholder="Fax" [(ngModel)]="userInfo.fax">
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">                        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Email:</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-10 mb-3">
+                                    <input type="email" class="form-control" placeholder="your@email.com" [(ngModel)]="userInfo.email">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">                        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Company:</div>
+                                    </div>
+                                </div>
+                                                    
+                                <div class="col-12 col-md-5 mb-2">
+                                    <input type="text" class="form-control" placeholder="Company" [(ngModel)]="userInfo.company" (input)="validDateData()">
+                                    <div class="text-error" *ngIf="hasError && !userInfo.company">Please indicate at least one of the following: First name, Last name or Company </div>
+
+                                </div>
+                                <div class="col-12 col-md-5 mb-3">
+                                    <input type="text" class="form-control" placeholder="Your Job" [(ngModel)]="userInfo.job">
+                                </div>
+                            </div>
+                            <div class="row mb-3">                        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Address:</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-10 mb-3">
+                                    <input type="text" class="form-control" placeholder="Enter your address" [(ngModel)]="userInfo.address">
+                                </div>
+                            </div>
+                            <div class="row mb-3">                        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Website:</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-10 mb-3">
+                                    <input type="text" class="form-control" placeholder="www.your-website.com" [(ngModel)]="userInfo.website">
+                                </div>
+                            </div>
+                            <div class="row mb-3">                        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Summary:</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-10 mb-3">
+                                    <textarea class="form-control" rows="3" [(ngModel)]="userInfo.summary"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+
+                    </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border mb-2">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title style="width: 100%;">
+                            <span class="panel-icon">
+                                <mat-icon aria-hidden="false" fontIcon="campaign"></mat-icon>
+                            </span>    
+                            <span class="panel-title"> Social Media</span>    
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-12 col-md-10">
+                            <div class="row mt-3 mb-5">
+                                <div class="col-12 text-muted">
+                                    Click on the icon to add a social media channel
+                                </div>                    
+                            </div>
+                            <div class="row my-5" *ngFor="let s of userInfo.selectedSM; let i = index">
+                                <div class="col-12 col-md-2 mb-2">
+                                    <span class="text-left panel-label">{{s.name}}:</span>
+                                </div>
+                                
+                                <div class="col-12 col-md-10">
+                                    <div class="dis-flex">
+                                        <div class="text-left" style="font-size:40px;">
+                                            <i  *ngIf="s.name !== 'DoorDash' &&
+                                                        s.name !== 'Tripadvisor' && 
+                                                        s.name !== 'Postmates' &&
+                                                        s.name !== 'Grubhub' &&
+                                                        s.name !== 'OpenTable' &&
+                                                        s.name !== 'Uber Eats' &&
+                                                        s.name !== 'Apple Music' "  
+                                                        [className]="s.icon" [style.color]="s.iconColor" >
+                                            </i>
+                                            <img *ngIf="s.name == 'DoorDash' || 
+                                                        s.name == 'Tripadvisor' || 
+                                                        s.name == 'Postmates' ||
+                                                        s.name == 'Grubhub' ||
+                                                        s.name == 'OpenTable' ||
+                                                        s.name == 'Uber Eats' ||
+                                                        s.name == 'Apple Music' "  
+                                                        [src]="s.icon" alt="" srcset="" height="35px" width="35px" class="mt-1">
+                                        </div>
+                                        <div class="input-group ml-2">   
+                                            <span class="input-group-text">
+                                                {{s.hints}}*
+                                            </span>
+                                            <input type="text" class="form-control" [placeholder]="s.placeholder" [(ngModel)]="s.value" >
+                                        </div>
+                                        <div class="clickable pt-2 ml-2">
+                                            <mat-icon (click)="removeSM(i)" >close</mat-icon>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-5">                        
+                                <div class="col-12 col-md-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Add More:</div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-10">
+                                    <div class="text-muted">
+                                        Click on the icon to add a social media profile
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2 sm-icon clickable" *ngFor="let s of socialMedia" (click)="pushSM(s)">
+                                            <i *ngIf="s.name !== 'DoorDash' && 
+                                                    s.name !== 'Tripadvisor' && 
+                                                    s.name !== 'Postmates' &&
+                                                    s.name !== 'Grubhub' &&
+                                                    s.name !== 'OpenTable' &&
+                                                    s.name !== 'Uber Eats' &&
+                                                    s.name !== 'Apple Music' " 
+                                                    [className]="s.icon" [style.color]="s.iconColor" ></i>
+                                            <img *ngIf="s.name == 'DoorDash' || 
+                                                        s.name == 'Tripadvisor' || 
+                                                        s.name == 'Postmates' ||
+                                                        s.name == 'Grubhub' ||
+                                                        s.name == 'OpenTable' ||
+                                                        s.name == 'Uber Eats' ||
+                                                        s.name == 'Apple Music' "                                          
+                                            [src]="s.icon" alt="" srcset="" height="20px">
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col"></div>
+
+                    </div>
+                </mat-expansion-panel>
+
+                
+                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border mb-2">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title style="width: 100%;">
+                            <span class="panel-icon">
+                                <mat-icon aria-hidden="false" fontIcon="campaign"></mat-icon>
+                            </span>    
+                            <span class="panel-title"> Welcome Screen</span>    
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-12 col-md-10">
+                            <div class="row mt-3 mb-5">
+                                <div class="col-12 text-muted">
+                                    Display your logo while page is loading
+                                </div>                    
+                            </div>
+                            <div class="row mb-5">                        
+                                <div class="col-12 col-md-2 mb-3">
+                                    <div class="text-left">
+                                        <div class="panel-label">Image:</div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-10">
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <div class="text-center">
+                                                <div class="border col-6">
+                                                    <img *ngIf="!userInfo.logoImage" src="assets/images/vcard-placeholder.jpg" alt="" srcset="" height="100" width="100">
+                                                    <img *ngIf="userInfo.logoImage" [src]="userInfo.logoImage" alt="" srcset="" height="100" width="100">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12 col-md-4 mt-2">
+                                            <div class="" style="display: grid;">                                      
+                                                <div class="choose-file btn btn-upload mt-3 clickable mb-3">
+                                                    <i class="fa-solid fa-refresh"></i>  Change
+                                                    <input type="file" class=" hide_file" (change)="fileChangeEventLogo($event)" /> 
+                                                </div>
+                                                <div class="">
+                                                    <span *ngIf="!previewLogo && userInfo.logoImage" class="mr-3 mt-2 clickable" (click)="previewLogo = true " >Preview</span>
+                                                    <span *ngIf="previewLogo" class="mr-3 mt-2 clickable" (click)="previewLogo = false " >Done</span>
+                                                    <span *ngIf="userInfo.logoImage" class="text-error mt-2 clickable" (click)="userInfo.logoImage = ''; previewLogo = false ">Remove</span>  
+
+                                                </div>
+                                             </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col"></div>
+
+                    </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border mb-2">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title style="width: 100%;">
+                            <span class="panel-icon">
+                                <mat-icon aria-hidden="false" fontIcon="settings"></mat-icon>
+                            </span>    
+                            <span class="panel-title"> Advanced Options</span>    
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-12 col-md-10">
+                            <div class="row mt-3 mb-5">        
+                                <div class="col-12 col-md-2 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Sharing:</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-10 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="userInfo.enableShare" [checked]="userInfo.enableShare">
+                                        <span class="form-check-label" for="flexCheckDefault">
+                                            Add a share button to the page
+                                        </span>
+                                      </div>
+                                </div>                  
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            
+            </div>
+            <div class="col-12 col-md-4 hide-xs p-5 border bg-white vcard-boxshadow">
+                <div style="position: sticky ; top: 0; padding-top: 20px;">
+                    <div class="mode-btn">
+                        <span class="text-center" style="width: 150px;" [ngClass]="mode === 'p'? 'active' : '' " (click)="mode = 'p' " >Preview</span>
+                        <span  class="text-center" style="width: 150px;" [ngClass]="mode === 'q'? 'active' : '' " (click)="mode = 'q'; validDateData()">QR Code</span>
+                    </div>
+                    <div style="height: 500px; overflow-y:auto; overflow-x: hidden;" >
+                        <app-v-card *ngIf="mode === 'p' " [previewLogo] = 'previewLogo' [userInfo]="userInfo" [isPreview]="true" ></app-v-card>
+                        <div *ngIf="mode === 'q' " class="text-center">
+                            <qrcode *ngIf="!hasError"  [qrdata]="qrCodeValue" [imageSrc]="qrLogo"  cssClass="aclass" [allowEmptyString]="true" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+                            <div *ngIf="!hasError">
+                                <div class="font-20">
+                                   <b> Scan this QR Code to preview </b>
+                                </div>
+                                <small class="font-15" >You can customize the design of your QR Code in the next step.
+                                </small>
+                            </div>
+                            <div *ngIf="hasError">
+                                <div class="font-20 text-center mt-5">
+                                    <div> <i class="fa-solid fa-exclamation-circle mb-5 text-error" style="font-size: 30px"></i> </div>
+                                    Fill in the required fields in the form to preview your QR Code
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col"></div>
+</div>
+
+<div class="w-100 py-5"></div>
+
+<div class="footer py-2" *ngIf="!qrModal">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-12 col-md-4"><button class="w-80" mat-flat-button color="success" (click)="next()">Next</button></div>
+        <div class="col"></div>
+    </div>
+    
+</div>
+
+
+<div class="modal1 fade in " [ngClass]="{'show': imageModal}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-sm modal1-dialog-centered" role="document">
+      <div class="modal1-content ">
+        <!-- <div class="modal1-header modal1-header-bg">
+          <div class="modal1-title h5" id="examplemodal1LongTitle"></div>          
+          <div  class="clickable" data-dismiss="modal1" aria-label="Close" (click)='imageModal = false'>
+            <span role="link" tabindex="0" aria-hidden="true">&times;</span>
+          </div>
+        </div> -->
+        <div class="modal1-body">
+            <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [containWithinAspectRatio]="false"
+            [aspectRatio]="4 / 4"
+            [resizeToWidth]="256"
+            [onlyScaleDown]="true"
+            [roundCropper]="true"
+            format="png"
+            [imageQuality] = '50'
+            (imageCropped)="imageCropped($event)"
+            
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+        </div> 
+        <div class="modal1-footer">
+          <button type="button" role="button" tabIndex="0" class="btn btn-secondary" (click)='imageModal = false'>Cancel</button>
+          <button type="button" role="button" tabIndex="0" class="btn btn-primary" (click) = "imageModal = false">         
+            <span> Confirm </span>
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal1 fade in " [ngClass]="{'show': logoModal}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-sm modal1-dialog-centered" role="document">
+      <div class="modal1-content ">
+        <!-- <div class="modal1-header modal1-header-bg">
+          <div class="modal1-title h5" id="examplemodal1LongTitle"></div>          
+          <div  class="clickable" data-dismiss="modal1" aria-label="Close" (click)='imageModal = false'>
+            <span role="link" tabindex="0" aria-hidden="true">&times;</span>
+          </div>
+        </div> -->
+        <div class="modal1-body">
+            
+            <image-cropper
+            [imageChangedEvent]="imageChangedEventLogo"
+            [maintainAspectRatio]="true"
+            [containWithinAspectRatio]="false"
+            [aspectRatio]="4 / 4"
+            [resizeToWidth]="256"
+            [onlyScaleDown]="true"
+            [roundCropper]="true"
+            format="png"
+            [imageQuality] = '50'
+            (imageCropped)="imageCroppedLogo($event)"
+            
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+        </div> 
+        <div class="modal1-footer">
+          <button type="button" role="button" tabIndex="0" class="btn btn-secondary" (click)='logoModal = false'>Cancel</button>
+          <button type="button" role="button" tabIndex="0" class="btn btn-primary" (click) = "logoModal = false">         
+            <span> Confirm </span>
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal1 fade in " [ngClass]="{'show': qrModal}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-lg modal1-dialog-centered" role="document">
+      <div class="modal1-content ">
+        <mat-progress-bar *ngIf="loading" mode="indeterminate" ></mat-progress-bar>
+        <div class="modal1-body">
+            <div class="row">
+                <div class="col-4 hide-xs border-right text-center pt-5">
+                    <div class="qrCode-panel" id="qrPanel" >
+                        <qrcode [qrdata]="qrCodeValue" [imageSrc]="qrLogo"  cssClass="aclass" [allowEmptyString]="true" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                        <div class="qrcodeTxt" *ngIf="qrCodeText">
+                            {{qrCodeText}}
+                        </div>
+                    </div>
+                    
+                    <div class="downloadbtn mt-3" (click)="downloadQRCode()">
+                        <i class="fa-solid fa-download"></i>  Download
+                    </div>
+
+                </div>
+                <div class="col-12 col-md-8">
+                    <div  class="clickable" data-dismiss="modal1" aria-label="Close" (click)='qrModal = false '>
+                        <mat-icon class="float-right">close</mat-icon>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                             <div class="btn-vcard-save" (click)="saveVcard()">                                
+                                <i class="fa-solid fa-cloud-upload"></i> Save VCard
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="semi-label mb-2">Frame Color</div>                                
+                            <div class="input-group">
+                                <input type="text" class="form-control w-50" [(ngModel)]="qrFrameColor" (input)="qrFrameFn()">
+                                <span class="input-group-text">
+                                    <input class="colorPicker clickable" [(colorPicker)]="qrFrameColor" [style.background]="qrFrameColor" (colorPickerChange)="qrFrameFn()"  />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="semi-label mb-2">Frame Text</div>                                  
+                            <input type="text" class="form-control" [(ngModel)]="qrCodeText">
+                            
+                        </div>
+
+                        
+                        <div class="col-12 col-md-8 mt-3">
+                            <div class="semi-label mb-2">Short URL</div>                                  
+                            <div class="dis-flex">
+                                <input type="text" disabled name="" id="" class="form-control form-control-sm w-75 mr-2 p-1" [(ngModel)]="qrCodeValue" >                     
+                                <span *ngIf="!accokownledged" class="border px-2 clickable">Copy</span>
+                                <span *ngIf="accokownledged" class="border px-2 clickable" (click)="copyText(qrCodeValue)">Copy</span>
+                            </div>
+                            <small *ngIf="iscopyed && accokownledged" >Text copied to clipboard</small>      
+                            <small *ngIf="!iscopyed && !accokownledged" >Save VCard to copy URL</small>                       
+                        </div>
+
+                        <div class="col-12 mt-5">
+                            <div class="row">                        
+                                <div class="col-12 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Logo:</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4 col-md-2 mr-2 ">
+                                            <div class="choose-file btn btn-muted mt-3 clickable pt-3" style="height: 60px; width:80px" (click)="qrLogo = ''" >
+                                                <mat-icon>block</mat-icon>
+                                              </div>
+                                        </div>
+                                        <div class="col-4 col-md-2">
+                                            <div class="choose-file btn btn-upload mt-3 clickable pt-3" style="height: 60px; width:80px">
+                                                Upload
+                                                <input type="file" class=" hide_file clickable" (change)="fileChangeEventQr($event)" /> 
+                                              </div>
+                                         </div>
+                                    </div>                                 
+                                </div>
+                            </div>
+
+                        </div>
+                </div>
+                
+
+                <div class="col-12 show-xs mt-3 text-center">
+                 
+                    <div class="qrCode-panel" id="qrPanel" >
+                        <qrcode [qrdata]="qrCodeValue" [imageSrc]="qrLogo"  cssClass="aclass" [allowEmptyString]="true" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                        <div class="qrcodeTxt" *ngIf="qrCodeText">
+                            {{qrCodeText}}
+                        </div>
+                    </div>
+                    
+                    <div class="downloadbtn mt-3" (click)="downloadQRCode()">
+                        <i class="fa-solid fa-download"></i>  Download
+                    </div>
+
+                </div>
+            </div>
+
+        </div> 
+      </div>
+    </div>
+    </div>
+</div>
