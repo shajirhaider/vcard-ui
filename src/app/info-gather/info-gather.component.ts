@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { ActivatedRoute } from '@angular/router';
 // import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
 import html2canvas from 'html2canvas';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -27,72 +28,74 @@ export class InfoGatherComponent implements OnInit {
   ]
 
   socialMedia = [
-    {icon : "fa-solid fa-globe", name : "Website", hints : "URL", isValid : true, placeholder:"www.mywebsite.com", iconColor : "#616568",  value : "" },
-    {icon : "fa-brands fa-facebook", name : "Facebook", hints : "URL", isValid : true, placeholder:"www.facebook.com/page", iconColor : "#3B5998",  value : "" },
-    {icon : "fa-brands fa-twitter", name : "Twitter", hints : "@", isValid : true, placeholder:"Username", iconColor : "#1DA1F2",  value : "" },
-    {icon : "fa-brands fa-instagram", name : "Instagram", hints : "@", isValid : true, placeholder:"Username", iconColor : "#E1306C",  value : "" },
-    {icon : "fa-brands fa-whatsapp", name : "Whatsapp", hints : "Phone ", isValid : true, placeholder:"+123123123", iconColor : "#25D366",  value : "" },
-    {icon : "fa-brands fa-tiktok", name : "Tiktok", hints : "URL", isValid : true, placeholder:"www.tiktok.com/@username", iconColor : "#000000",  value : "" },
-    {icon : "fa-brands fa-square-snapchat", name : "Snapchat", hints : "ID", isValid : true, placeholder:"Username", iconColor : "#FFFC00",  value : "" },
-    {icon : "fa-brands fa-youtube", name : "YouTube", hints : "URL", isValid : true, placeholder:"www.youtube.com/user/mychannel", iconColor : "#CD201F",  value : "" },
-    {icon : "fa-brands fa-telegram", name : "Telegram", hints : "URL", isValid : true, placeholder:"t.me/username", iconColor : "#28A8E9",  value : "" },
-    {icon : "fa-brands fa-facebook-messenger", name : "Messenger", hints : "URL", isValid : true, placeholder:"m.me/username", iconColor : "#B93BDF",  value : "" },
-    {icon : "fa-brands fa-yelp", name : "Yelp", hints : "URL", isValid : true, placeholder:"www.yelp.com/biz/...", iconColor : "#F43939",  value : "" },
-    {icon : "fa-brands fa-google", name : "Google Review:", hints : "URL", isValid : true, placeholder:"https://g.page/shortname/review", iconColor : "#EA4335",  value : "" },
-    {icon : "fa-brands fa-pinterest", name : "Pinterest", hints : "URL", isValid : true, placeholder:"www.pinterest.com/username", iconColor : "#BD081C",  value : "" },
-    {icon : "fa-brands fa-linkedin", name : "LinkedIn", hints : "URL", isValid : true, placeholder:"www.linkedin.com/company/name", iconColor : "#0077B5",  value : "" },
-    {icon : "fa-brands fa-xing", name : "Xing", hints : "URL", isValid : true, placeholder:"www.xing.com/company/name", iconColor : "#026466",  value : "" },
-    {icon : "fa-brands fa-flickr", name : "Flickr", hints : "URL", isValid : true, placeholder:"www.flickr.com/photos/flickr", iconColor : "#FF0084",  value : "" },
-    {icon : "fa-brands fa-vimeo", name : "Vimeo", hints : "URL", isValid : true, placeholder:"www.vimeo.com/channels/mychannel", iconColor : "#1AB7EA",  value : "" },
-    {icon : "fa-brands fa-dribbble", name : "Dribbble", hints : "URL", isValid : true, placeholder:"www.dribbble.com/company", iconColor : "#EA4C89",  value : "" },
-    {icon : "fa-brands fa-line", name : "Line", hints : "ID", isValid : true, placeholder:"User ID", iconColor : "#00C300",  value : "" },
-    {icon : "fa-brands fa-reddit", name : "Reddit", hints : "URL", isValid : true, placeholder:"www.reddit.com/username", iconColor : "#FF4500",  value : "" },
-    {icon : "fa-brands fa-square-tumblr", name : "Tumblr", hints : "URL", isValid : true, placeholder:"https://username.tumblr.com/", iconColor : "#35465C",  value : "" },
-    {icon : "fa-brands fa-github", name : "Github", hints : "URL", isValid : true, placeholder:"www.github.com/username", iconColor : "#191717",  value : "" },
-    {icon : "fa-brands fa-skype", name : "Skype", hints : "SkypeID", isValid : true, placeholder:"SkypeID", iconColor : "#00AFF0",  value : "" },
-    {icon : "fa-brands fa-spotify", name : "Spotify", hints : "URL", isValid : true, placeholder:"https://open.spotify.com/user/...", iconColor : "#1ED760",  value : "" },
-    {icon : "fa-brands fa-soundcloud", name : "SoundCloud", hints : "URL", isValid : true, placeholder:"https://soundcloud.com/username", iconColor : "#F83F0E",  value : "" },
-    {icon : "fa-brands fa-vk", name : "VKontakte", hints : "URL", isValid : true, placeholder:"www.vk.com/name", iconColor : "#45668E",  value : "" },
-    {icon : "fa-brands fa-square-behance", name : "Behance", hints : "URL", isValid : true, placeholder:"https://be.net/yourusername", iconColor : "#0057FF",  value : "" },
+    { icon: "fa-solid fa-globe", name: "Website", hints: "URL", isValid: true, placeholder: "www.mywebsite.com", iconColor: "#616568", value: "" },
+    { icon: "fa-brands fa-facebook", name: "Facebook", hints: "URL", isValid: true, placeholder: "www.facebook.com/page", iconColor: "#3B5998", value: "" },
+    { icon: "fa-brands fa-twitter", name: "Twitter", hints: "@", isValid: true, placeholder: "Username", iconColor: "#1DA1F2", value: "" },
+    { icon: "fa-brands fa-instagram", name: "Instagram", hints: "@", isValid: true, placeholder: "Username", iconColor: "#E1306C", value: "" },
+    { icon: "fa-brands fa-whatsapp", name: "Whatsapp", hints: "Phone ", isValid: true, placeholder: "+123123123", iconColor: "#25D366", value: "" },
+    { icon: "fa-brands fa-tiktok", name: "Tiktok", hints: "URL", isValid: true, placeholder: "www.tiktok.com/@username", iconColor: "#000000", value: "" },
+    { icon: "fa-brands fa-square-snapchat", name: "Snapchat", hints: "ID", isValid: true, placeholder: "Username", iconColor: "#FFFC00", value: "" },
+    { icon: "fa-brands fa-youtube", name: "YouTube", hints: "URL", isValid: true, placeholder: "www.youtube.com/user/mychannel", iconColor: "#CD201F", value: "" },
+    { icon: "fa-brands fa-telegram", name: "Telegram", hints: "URL", isValid: true, placeholder: "t.me/username", iconColor: "#28A8E9", value: "" },
+    { icon: "fa-brands fa-facebook-messenger", name: "Messenger", hints: "URL", isValid: true, placeholder: "m.me/username", iconColor: "#B93BDF", value: "" },
+    { icon: "fa-brands fa-yelp", name: "Yelp", hints: "URL", isValid: true, placeholder: "www.yelp.com/biz/...", iconColor: "#F43939", value: "" },
+    { icon: "fa-brands fa-google", name: "Google Review:", hints: "URL", isValid: true, placeholder: "https://g.page/shortname/review", iconColor: "#EA4335", value: "" },
+    { icon: "fa-brands fa-pinterest", name: "Pinterest", hints: "URL", isValid: true, placeholder: "www.pinterest.com/username", iconColor: "#BD081C", value: "" },
+    { icon: "fa-brands fa-linkedin", name: "LinkedIn", hints: "URL", isValid: true, placeholder: "www.linkedin.com/company/name", iconColor: "#0077B5", value: "" },
+    { icon: "fa-brands fa-xing", name: "Xing", hints: "URL", isValid: true, placeholder: "www.xing.com/company/name", iconColor: "#026466", value: "" },
+    { icon: "fa-brands fa-flickr", name: "Flickr", hints: "URL", isValid: true, placeholder: "www.flickr.com/photos/flickr", iconColor: "#FF0084", value: "" },
+    { icon: "fa-brands fa-vimeo", name: "Vimeo", hints: "URL", isValid: true, placeholder: "www.vimeo.com/channels/mychannel", iconColor: "#1AB7EA", value: "" },
+    { icon: "fa-brands fa-dribbble", name: "Dribbble", hints: "URL", isValid: true, placeholder: "www.dribbble.com/company", iconColor: "#EA4C89", value: "" },
+    { icon: "fa-brands fa-line", name: "Line", hints: "ID", isValid: true, placeholder: "User ID", iconColor: "#00C300", value: "" },
+    { icon: "fa-brands fa-reddit", name: "Reddit", hints: "URL", isValid: true, placeholder: "www.reddit.com/username", iconColor: "#FF4500", value: "" },
+    { icon: "fa-brands fa-square-tumblr", name: "Tumblr", hints: "URL", isValid: true, placeholder: "https://username.tumblr.com/", iconColor: "#35465C", value: "" },
+    { icon: "fa-brands fa-github", name: "Github", hints: "URL", isValid: true, placeholder: "www.github.com/username", iconColor: "#191717", value: "" },
+    { icon: "fa-brands fa-skype", name: "Skype", hints: "SkypeID", isValid: true, placeholder: "SkypeID", iconColor: "#00AFF0", value: "" },
+    { icon: "fa-brands fa-spotify", name: "Spotify", hints: "URL", isValid: true, placeholder: "https://open.spotify.com/user/...", iconColor: "#1ED760", value: "" },
+    { icon: "fa-brands fa-soundcloud", name: "SoundCloud", hints: "URL", isValid: true, placeholder: "https://soundcloud.com/username", iconColor: "#F83F0E", value: "" },
+    { icon: "fa-brands fa-vk", name: "VKontakte", hints: "URL", isValid: true, placeholder: "www.vk.com/name", iconColor: "#45668E", value: "" },
+    { icon: "fa-brands fa-square-behance", name: "Behance", hints: "URL", isValid: true, placeholder: "https://be.net/yourusername", iconColor: "#0057FF", value: "" },
 
-    {icon : "assets/images/icons/icon-tripadvisior.png", name : "Tripadvisor", hints : "URL", isValid : true, placeholder:"www.tripadvisor.com/name", iconColor : "",  value : "" },
-    {icon : "assets/images/icons/icon-doordash.png", name : "DoorDash", hints : "URL", isValid : true, placeholder:"www.doordash.com/store/...", iconColor : "",  value : "" },
-    {icon : "assets/images/icons/icon-grubhub.png", name : "Grubhub", hints : "URL", isValid : true, placeholder:"www.grubhub.com/food/...", iconColor : "",  value : "" },
-    {icon : "assets/images/icons/icon-opentable.png", name : "OpenTable", hints : "URL", isValid : true, placeholder:"www.opentable.com/r/....", iconColor : "",  value : "" },
-    {icon : "assets/images/icons/icon-postmates.png", name : "Postmates", hints : "URL", isValid : true, placeholder:"www.ubereats.com/brand/...", iconColor : "",  value : "" },
-    {icon : "assets/images/icons/icon-ubereats.png", name : "Uber Eats", hints : "URL", isValid : true, placeholder:"www.doordash.com/store/...", iconColor : "",  value : "" },
-    {icon : "assets/images/icons/icon-applemusin.png", name : "Apple Music", hints : "URL", isValid : true, placeholder:"https://music.apple.com/artist/...", iconColor : "",  value : "" }
-    
+    { icon: "assets/images/icons/icon-tripadvisior.png", name: "Tripadvisor", hints: "URL", isValid: true, placeholder: "www.tripadvisor.com/name", iconColor: "", value: "" },
+    { icon: "assets/images/icons/icon-doordash.png", name: "DoorDash", hints: "URL", isValid: true, placeholder: "www.doordash.com/store/...", iconColor: "", value: "" },
+    { icon: "assets/images/icons/icon-grubhub.png", name: "Grubhub", hints: "URL", isValid: true, placeholder: "www.grubhub.com/food/...", iconColor: "", value: "" },
+    { icon: "assets/images/icons/icon-opentable.png", name: "OpenTable", hints: "URL", isValid: true, placeholder: "www.opentable.com/r/....", iconColor: "", value: "" },
+    { icon: "assets/images/icons/icon-postmates.png", name: "Postmates", hints: "URL", isValid: true, placeholder: "www.ubereats.com/brand/...", iconColor: "", value: "" },
+    { icon: "assets/images/icons/icon-ubereats.png", name: "Uber Eats", hints: "URL", isValid: true, placeholder: "www.doordash.com/store/...", iconColor: "", value: "" },
+    { icon: "assets/images/icons/icon-applemusin.png", name: "Apple Music", hints: "URL", isValid: true, placeholder: "https://music.apple.com/artist/...", iconColor: "", value: "" }
+
   ]
 
 
-  selectedSM : any[] = []
+  selectedSM: any[] = []
   hasError = false
-  userInfo = {   
-    uuid :"",
+  userInfo = {
+    uuid: "",
+    cardName: "",
     primaryColor: "",
     buttonColor: "",
-    gradient : "",
-    useGradient : false,
+    gradient: "",
+    useGradient: false,
     image: "https://qrcgcustomers.s3-eu-west-1.amazonaws.com/account2/11_20.jpg",
-    firstName : "",
-    lastName:"",
-    mobile:"",
-    phone:"",
-    fax:"",
-    email:"",
-    company:"",
-    job:"",
-    address:"",
-    website:"",
-    summary : "",
-    enableShare : false,
-    logoImage :"",
-    selectedSM : []
+    firstName: "",
+    lastName: "",
+    mobile: "",
+    phone: "",
+    fax: "",
+    email: "",
+    company: "",
+    job: "",
+    address: "",
+    website: "",
+    summary: "",
+    enableShare: false,
+    logoImage: "",
+    userID: "",
+    selectedSM: []
   }
-  
+
   imageChangedEvent: any = '';
-  imageChangedEventLogo : any = ""
+  imageChangedEventLogo: any = ""
   croppedImage: any = '';
   imageModal = false
   mode = 'p'
@@ -105,35 +108,83 @@ export class InfoGatherComponent implements OnInit {
   qrCodeText = "Scan Me"
   qrCodeValue = '';
   qrFrameColor = "#FFF"
-  qrLogo : any
+  qrLogo: any
   iscopyed = false
-  
+
   loading = false
   accokownledged = false
+  uniqueQR = ""
+  type = ""
+  msg = ""
 
-  constructor(private  elementRef: ElementRef, private clipboard: Clipboard, private api: ApiService) { }
+  constructor(private elementRef: ElementRef, private clipboard: Clipboard, private api: ApiService, private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    this.userInfo.primaryColor = this.themes[0].primary
-    this.userInfo.buttonColor = this.themes[0].button
-    this.generateQRID()
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.getSingleCard(id)
+    } else {
+      this.userInfo.primaryColor = this.themes[0].primary
+      this.userInfo.buttonColor = this.themes[0].button
+      this.generateQRID()
+    }
+    if(this.route.snapshot.paramMap.get('type') === 'view'){
+      this.type = 'view'
+    }
+  }
+
+  getSingleCard(id) {
+    this.api.getSingleCard(id)
+      .subscribe(data => {
+        let res: any = data
+        this.userInfo = res
+        this.userInfo.selectedSM = []
+        this.qrCodeValue = res["qrCodeValue"]
+        this.croppedImage = this.userInfo.image
+        this.getAllSocialMedia(this.userInfo.uuid)
+      });
+  }
+
+  getAllSocialMedia(uuid) {
+    this.api.getAllSocialMedia(uuid)
+      .subscribe(data => {
+        let res: any = data
+        this.userInfo.selectedSM = res
+      });
   }
 
 
-  saveVcard(){
+  saveVcard() {
+
+
+    const id = this.route.snapshot.paramMap.get('id');
 
     let userInfo = JSON.parse(JSON.stringify(this.userInfo))
     userInfo.socialMedia = this.userInfo.selectedSM
-    // if(!this.croppedImage){
-    //   userInfo.image = this.emptyImage
-    // }
+    if (id) {
+      this.loading = true
+      this.api.updateVcardData(userInfo)
+        .subscribe(data => {
+          this.loading = false
+          if (data["success"]) {
+            this.accokownledged = data["success"]
+            this.msg = data["msg"]
+          }
+        });
 
+      return
+    }
+
+    userInfo.qrCodeValue = this.uniqueQR
     this.loading = true
     this.api.saveVcardData(userInfo)
-    .subscribe(data => {
-      this.loading = false
-      this.accokownledged = data["acknowledged"]
-    });
+      .subscribe(data => {
+        this.loading = false
+        if (data["success"]) {
+          this.accokownledged = data["success"]
+          this.msg = data["msg"]
+        }
+      });
   }
   fileChangeEventLogo(event: any): void {
     this.logoModal = true
@@ -147,7 +198,7 @@ export class InfoGatherComponent implements OnInit {
     this.imageModal = true
     this.imageChangedEvent = event;
   }
-  fileChangeEventQr(event){
+  fileChangeEventQr(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -169,9 +220,9 @@ export class InfoGatherComponent implements OnInit {
     // show message
   }
 
-  next(){
+  next() {
     this.validDateData()
-    if(!this.hasError){
+    if (!this.hasError) {
       this.qrModal = true
     }
   }
@@ -184,82 +235,82 @@ export class InfoGatherComponent implements OnInit {
     this.userInfo.buttonColor = tempPrim
   }
 
-  pushSM(ele : any){
+  pushSM(ele: any) {
     this.userInfo.selectedSM.push(ele)
   }
 
-  qrFrameFn(){
-    const aclass :any = document.querySelectorAll('.aclass');
-    const qrcodeTxt :any = document.querySelectorAll('.qrcodeTxt');
-    if(this.qrFrameColor){
+  qrFrameFn() {
+    const aclass: any = document.querySelectorAll('.aclass');
+    const qrcodeTxt: any = document.querySelectorAll('.qrcodeTxt');
+    if (this.qrFrameColor) {
       aclass.forEach(box => {
-        box.style.border = '10px solid'+this.qrFrameColor;
+        box.style.border = '10px solid' + this.qrFrameColor;
         box.style.borderRadius = '10px';
       });
       qrcodeTxt.forEach(box => {
         box.style.background = this.qrFrameColor;
       });
-    }else{      
+    } else {
       aclass.forEach(box => {
-      box.style.border = 'none';
-      box.style.borderRadius = '0px';
-    });
-    qrcodeTxt.forEach(box => {
-      box.style.background = '#FFF';
-    });
+        box.style.border = 'none';
+        box.style.borderRadius = '0px';
+      });
+      qrcodeTxt.forEach(box => {
+        box.style.background = '#FFF';
+      });
 
     }
 
-  
+
   }
 
   public downloadQRCode() {
 
     const captureElement: any = document.getElementsByClassName('qrCode-panel')[0]
     html2canvas(captureElement)
-        .then(canvas => {
-            canvas.style.display = 'none'
-            document.body.appendChild(canvas)
-            return canvas
-        })
-        .then(canvas => {
-            const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-            const a = document.createElement('a')
-            a.setAttribute('download', 'my-image.png')
-            a.setAttribute('href', image)
-            a.click()
-            canvas.remove()
-        })
-    
- }
+      .then(canvas => {
+        canvas.style.display = 'none'
+        document.body.appendChild(canvas)
+        return canvas
+      })
+      .then(canvas => {
+        const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+        const a = document.createElement('a')
+        a.setAttribute('download', 'my-image.png')
+        a.setAttribute('href', image)
+        a.click()
+        canvas.remove()
+      })
 
- generateQRID(){
-  let firstPart : any = (Math.random() * 46656) | 0;
-  let secondPart :any = (Math.random() * 46656) | 0;
-  firstPart = ("000" + firstPart.toString(36)).slice(-3);
-  secondPart = ("000" + secondPart.toString(36)).slice(-3);
-  
-  this.userInfo.uuid = firstPart + secondPart;
-  this.qrCodeValue = environment.domain + "/qr/"+ firstPart + secondPart;
- }
-
- copyText(textToCopy: string) {
-  if(textToCopy){
-    this.clipboard.copy(textToCopy);
-    this.iscopyed = true
   }
-}
 
-validDateData(){
-  this.hasError = false
-  if(!this.userInfo.firstName && !this.userInfo.lastName && !this.userInfo.company){
-    this.hasError = true
+  generateQRID() {
+    let firstPart: any = (Math.random() * 46656) | 0;
+    let secondPart: any = (Math.random() * 46656) | 0;
+    firstPart = ("000" + firstPart.toString(36)).slice(-3);
+    secondPart = ("000" + secondPart.toString(36)).slice(-3);
+
+    this.uniqueQR = firstPart + secondPart;
+    this.qrCodeValue = environment.domain + "/qr/" + firstPart + secondPart;
   }
-}
 
-removeSM(i){
-  this.userInfo.selectedSM.splice(i, 1);
-}
+  copyText(textToCopy: string) {
+    if (textToCopy) {
+      this.clipboard.copy(textToCopy);
+      this.iscopyed = true
+    }
+  }
+
+  validDateData() {
+    this.hasError = false
+    if (!this.userInfo.firstName && !this.userInfo.lastName && !this.userInfo.company && !this.userInfo.cardName) {
+      this.hasError = true
+    }
+  }
+
+  removeSM(i) {
+    this.userInfo.selectedSM.splice(i, 1);
+  }
 
 }
 

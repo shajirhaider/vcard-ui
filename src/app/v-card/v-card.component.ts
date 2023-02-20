@@ -72,7 +72,8 @@ export class VCardComponent implements OnInit, OnChanges  {
     if(!this.isPreview){
       
       this.previewLogo = true
-      this.getUserInfo()
+      // this.getUserInfo()
+      this.getvCard()
     }
 
   }
@@ -132,7 +133,43 @@ export class VCardComponent implements OnInit, OnChanges  {
     }
 }
 
-  
+getvCard(){
+  this.loading = true
+  let id = this.route.snapshot.paramMap.get('code')
+  this.api.getvCard(id)
+  .subscribe(data => {
+    if(data["uuid"]){ 
+      let res : any = data
+      this.userInfo = res
+      this.userInfo.selectedSM = []
+      this.qrCode =  environment.domain + "/qr/"+  this.userInfo["qrCodeValue"]
+      this.vCard.name.firstNames = this.userInfo.firstName
+      this.vCard.name.lastNames = this.userInfo.lastName
+      this.vCard.url= this.userInfo.website
+      this.vCard.workFax = [this.userInfo.fax]
+      this.vCard.email= [this.userInfo.email]
+      this.vCard.organization = this.userInfo.company
+      this.vCard.title = this.userInfo.job
+      this.vCard.telephone = [{value: this.userInfo.mobile, param: {type : "cell"} }, {value: this.userInfo.phone, param: {type :'voice' } }]
+      // this.vCard.photo = [{value:this.userInfo.image, param:{type: 'video'}}]
+     this.showLogo()
+      this.loading = false
+      this.getAllSocialMedia(res.uuid)
+
+    }else{
+        this.previewLogo = false
+      }
+   
+  });
+}
+
+getAllSocialMedia(uuid){
+  this.api.getAllSocialMedia(uuid)
+  .subscribe(data => {
+    let res : any = data
+    this.userInfo.selectedSM = res
+  });
+}
 
   getUserInfo(){
     this.loading = true
@@ -157,11 +194,6 @@ export class VCardComponent implements OnInit, OnChanges  {
       }else{
         this.previewLogo = false
       }
-      // else{
-      //   this.loading = false
-      //   this.userInfo.logoImage = this.userInfo.image
-      //   this.showLogo()
-      // }
     });
 
   }

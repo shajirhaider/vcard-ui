@@ -15,12 +15,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { LandingComponent } from './landing/landing.component';
 import { InfoGatherComponent } from './info-gather/info-gather.component';
 import { VCardComponent } from './v-card/v-card.component';
+import { CardListComponent } from './card-list/card-list.component';
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     InfoGatherComponent,
-    VCardComponent
+    VCardComponent,
+    CardListComponent
   ],
   imports: [
     BrowserModule,

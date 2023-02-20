@@ -1,12 +1,17 @@
 <mat-toolbar class="mat-elevation-z2" style="position: sticky ; top: 0; z-index: 1000;">
-    <span routerLink="" class="clickable"> <mat-icon>arrow_back</mat-icon> </span>
+    <span routerLink="/vcards" class="clickable"> <mat-icon>arrow_back</mat-icon> </span>
   </mat-toolbar>
 <div class="row">
     <div class="col"></div>
     <div class="col-12 col-md-10">
         <div class="row mt-3">
             <div class="col-12 col-md-8">
-                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border mb-2">
+                <mat-form-field class="w-100 qrname-input">
+                    <input matInput type="text" class="" placeholder="Name your QR Code" [(ngModel)]="userInfo.cardName">
+                </mat-form-field>
+                <div class="text-error" *ngIf="hasError && !userInfo.cardName">Please give a name </div>
+            
+                <mat-expansion-panel [expanded]="true" class="mat-elevation-z0 border my-2">
                     <mat-expansion-panel-header>
                         <mat-panel-title style="width: 100%;">
                             <span class="panel-icon">
@@ -456,7 +461,7 @@
 
 <div class="w-100 py-5"></div>
 
-<div class="footer py-2" *ngIf="!qrModal">
+<div class="footer py-2" *ngIf="!qrModal && type !=='view'">
     <div class="row">
         <div class="col"></div>
         <div class="col-12 col-md-4"><button class="w-80" mat-flat-button color="success" (click)="next()">Next</button></div>
@@ -565,8 +570,11 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                             <div class="btn-vcard-save" (click)="saveVcard()">                                
+                             <div *ngIf="!msg" class="btn-vcard-save" (click)="saveVcard()">                                
                                 <i class="fa-solid fa-cloud-upload"></i> Save VCard
+                            </div>     
+                            <div *ngIf="msg" class="btn-vcard-save">                                
+                                <i class="fa-solid fa-check-circle"></i> {{msg}}
                             </div>
                         </div>
                         <div class="col-12 col-md-6">

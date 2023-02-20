@@ -1,0 +1,189 @@
+<mat-toolbar class="mat-elevation-z2" style="position: sticky ; top: 0; z-index: 1000;">
+    <!-- <span routerLink="/vcards" class="clickable"> <mat-icon>arrow_back</mat-icon> </span> -->
+  </mat-toolbar>
+
+<div class="row mt-3">
+    <div class="col"></div>
+    <div class="col-12 col-md-9">
+        <div class="w-100 mb-3 text-right">
+            <button class="btn btn-primary"  color="success" routerLink="/create/new"><i class="fa-solid fa-plus"></i> Create QR CODE</button>
+        </div>
+        <div *ngIf="cardList.length > 0">
+            <div class="qr-manage-code" *ngFor="let c of cardList">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="display-flex list-card-name pt-2">
+                                    <div class="mr-2"><i class="fa-regular fa-address-card"></i> </div>
+                                    <div class=""> {{c.cardName}}</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mt-2">
+                                <div class="display-flex list-card-sm-text">
+                                    <div class="mr-4"><i class="fa-regular fa-clock"></i> </div>
+                                    <div class="">{{c.createdOn}}</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mt-2">
+                                <div class="list-card-sm-text text-center">
+                                    <i class="fa-solid fa-link mr-2"></i> {{c.qrCodeValue}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12 col-md-6 text-center">
+                                <qrcode [qrdata]="qrCodeValue" [imageSrc]="qrLogo"  [allowEmptyString]="true" [width]="130" [errorCorrectionLevel]="'M'"></qrcode>
+                            </div>
+                            <div class="col-12 col-md-6 vcard-action-btn pt-3">
+                                <div class="btn btn-outline-primary btn-block" (click)="qrModal = true; qrCodeValue = c.qrCodeValue">                            
+                                    <i class="fa-solid fa-download clickable"></i> Download
+                                </div>
+                                <div class="text-center mt-3">
+                                    <!-- <button class="btn btn-sm btn-primary mr-2" [routerLink]="['/detail/', 'view' ,c.uuid]"><i title="View" class="fa-solid fa-eye clickable"></i> View</button> -->
+                                    <button class="btn btn-sm btn-warning mr-2 px-3" [routerLink]="['/edit/', c.uuid]"><i title="Edit" class="fa-solid fa-edit clickable"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger mr-2 " (click)="deleteModal = true; deleteId= c.uuid"><i title="Delete" class="fa-solid fa-trash clickable"></i> Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <div *ngIf="cardList.length == 0">
+            <div class="qr-manage-code text-center">
+                <div class="mt-5" *ngIf="progress">Loading...</div>
+                <div class="mt-5" *ngIf="!progress">You don't have any QR Code yet. </div>
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+
+
+
+<div class="modal1 fade in " [ngClass]="{'show': qrModal}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-lg modal1-dialog-centered" role="document">
+      <div class="modal1-content ">
+        <div class="modal1-body">
+            <div class="row">
+                <div class="col-4 hide-xs border-right text-center pt-5">
+                    <div class="qrCode-panel" id="qrPanel" >
+                        <qrcode [qrdata]="qrCodeValue" [imageSrc]="qrLogo"  cssClass="aclass" [allowEmptyString]="true" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                        <div class="qrcodeTxt" *ngIf="qrCodeText">
+                            {{qrCodeText}}
+                        </div>
+                    </div>
+                    
+                    <div class="downloadbtn mt-3" (click)="downloadQRCode()">
+                        <i class="fa-solid fa-download"></i>  Download
+                    </div>
+
+                </div>
+                <div class="col-12 col-md-8">
+                    <div  class="clickable" data-dismiss="modal1" aria-label="Close" (click)='qrModal = false '>
+                        <mat-icon class="float-right">close</mat-icon>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="semi-label mb-2">Frame Color</div>                                
+                            <div class="input-group">
+                                <input type="text" class="form-control w-50" [(ngModel)]="qrFrameColor" (input)="qrFrameFn()">
+                                <span class="input-group-text">
+                                    <input class="colorPicker clickable" [(colorPicker)]="qrFrameColor" [style.background]="qrFrameColor" (colorPickerChange)="qrFrameFn()"  />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="semi-label mb-2">Frame Text</div>                                  
+                            <input type="text" class="form-control" [(ngModel)]="qrCodeText">
+                            
+                        </div>
+
+                        
+                        <div class="col-12 col-md-8 mt-3">
+                            <div class="semi-label mb-2">Short URL</div>                                  
+                            <div class="dis-flex">
+                                <input type="text" disabled name="" id="" class="form-control form-control-sm w-75 mr-2 p-1" [(ngModel)]="qrCodeValue" >                     
+                                <span  class="border px-2 clickable" (click)="copyText(qrCodeValue)">Copy</span>
+                            </div>
+                            <small *ngIf="iscopyed" >Text copied to clipboard</small>      
+                            <!-- <small *ngIf="!iscopyed" >Save VCard to copy URL</small>                        -->
+                        </div>
+
+                        <div class="col-12 mt-5">
+                            <div class="row">                        
+                                <div class="col-12 mb-2">
+                                    <div class="text-left">
+                                        <div class="panel-label">Logo:</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-4 col-md-2 mr-2 ">
+                                            <div class="choose-file btn btn-muted mt-3 clickable pt-3" style="height: 60px; width:80px" (click)="qrLogo = ''" >
+                                                <mat-icon>block</mat-icon>
+                                              </div>
+                                        </div>
+                                        <div class="col-4 col-md-2">
+                                            <div class="choose-file btn btn-upload mt-3 clickable pt-3" style="height: 60px; width:80px">
+                                                Upload
+                                                <input type="file" class=" hide_file clickable" (change)="fileChangeEventQr($event)" /> 
+                                              </div>
+                                         </div>
+                                    </div>                                 
+                                </div>
+                            </div>
+
+                        </div>
+                </div>
+                
+
+                <div class="col-12 show-xs mt-3 text-center">
+                 
+                    <div class="qrCode-panel" id="qrPanel" >
+                        <qrcode [qrdata]="qrCodeValue" [imageSrc]="qrLogo"  cssClass="aclass" [allowEmptyString]="true" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                        <div class="qrcodeTxt" *ngIf="qrCodeText">
+                            {{qrCodeText}}
+                        </div>
+                    </div>
+                    
+                    <div class="downloadbtn mt-3" (click)="downloadQRCode()">
+                        <i class="fa-solid fa-download"></i>  Download
+                    </div>
+
+                </div>
+            </div>
+
+        </div> 
+      </div>
+    </div>
+    </div>
+</div>
+
+
+<div class="modal1 fade in " [ngClass]="{'show': deleteModal}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal1-dialog modal1-sm modal1-dialog-centered" role="document">
+      <div class="modal1-content ">
+        <div class="modal1-header text-danger "> <b>Delete QR Code</b></div>
+        <div class="modal1-body">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div *ngIf="!deleteMsg" class="py-5">
+                        <div>Deleting QR Codes is permanent and cannot be undone. All data related to it will be erased.</div>
+                    </div>
+                    <div *ngIf="deleteMsg" class="py-5">{{deleteMsg}}</div>
+                </div>
+            </div> 
+      </div>
+      <div class="modal1-footer">
+        <button class="btn btn-secondary mr-2" (click)="deleteModal = false; deleteMsg = ''">Close</button>
+        <button *ngIf="!deleteMsg" class="btn btn-danger" (click)="deleteCard()">Delete</button>
+      </div>
+    </div>
+    </div>
+</div>
