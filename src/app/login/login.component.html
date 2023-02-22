@@ -1,0 +1,36 @@
+<div class="row mt-5">
+    <div class="col"></div>
+    <div class="col-12 col-md-3">           
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="">
+        </div>  
+        <div class="signup-form mt-4">
+            <div class="mt-2">
+                no account yet? <span routerLink="/signup" class="clickable signup-text border-bottom border-primary" >sign up</span>
+            </div>
+            <!-- <div class="text-center">
+                <span class="signup-form-text"> Sign Up</span>
+            </div> -->
+            <div class=" signup-form-main">
+                <mat-form-field class="w-100 qrname-input1" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="text" class="" [(ngModel)]="loginobj.username">
+                </mat-form-field>
+                
+                <mat-form-field class="w-100 qrname-input1" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" class="" [(ngModel)]="loginobj.password">
+                </mat-form-field>
+                <div class="text-right text-primary clickable">
+                    forgot password?
+                </div>
+    
+                <button class="w-100 mt-2 font-20 btn btn-primary" (click)="login()"> <i *ngIf="loading" class="fas fa-circle-notch fa-spin"></i> LOG IN </button>
+                <div *ngIf = "msg" class="mt-2 text-center text-danger"> {{msg}} </div>    
+            </div>
+
+        </div>   
+
+    </div>
+    <div class="col"></div>
+</div>

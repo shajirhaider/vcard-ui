@@ -1,5 +1,12 @@
 <mat-toolbar class="mat-elevation-z2" style="position: sticky ; top: 0; z-index: 1000;">
     <!-- <span routerLink="/vcards" class="clickable"> <mat-icon>arrow_back</mat-icon> </span> -->
+    <span class="header-logo" routerLink="/vcards"><img src="assets/images/logo.png" alt=""> {{appName}}</span>
+    <span class="header-name">
+        <button mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon> {{userName}}</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click) = "logout()" ><mat-icon>logout</mat-icon> Log Out</button>
+        </mat-menu>
+    </span>
   </mat-toolbar>
 
 <div class="row mt-3">

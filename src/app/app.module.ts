@@ -16,13 +16,17 @@ import { LandingComponent } from './landing/landing.component';
 import { InfoGatherComponent } from './info-gather/info-gather.component';
 import { VCardComponent } from './v-card/v-card.component';
 import { CardListComponent } from './card-list/card-list.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     InfoGatherComponent,
     VCardComponent,
-    CardListComponent
+    CardListComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

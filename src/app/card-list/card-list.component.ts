@@ -26,11 +26,18 @@ export class CardListComponent implements OnInit {
   deleteId = ""
   deleteMsg = ""
   progress = false
+  appName = environment.appName
+  userName = ""
 
   constructor(private clipboard: Clipboard, private api: ApiService) { }
 
   ngOnInit(): void {
+    this.userName = this.api.getUserName()
     this.getVcardList()
+  }
+
+  logout(){
+    this.api.logout()
   }
 
   dateParse(date){

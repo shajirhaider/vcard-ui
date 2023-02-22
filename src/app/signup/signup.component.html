@@ -1,0 +1,58 @@
+<div class="row mt-5">
+    <div class="col"></div>
+    <div class="col-12 col-md-4 ">
+        <div class="logo">
+            <img src="assets/images/logo.png" alt="">
+        </div>
+        <div class="signup-form mt-4">
+            <div class="text-center">
+                <span class="signup-form-text"> Sign Up</span>
+            </div>
+            <div class="signup-text">
+                now to  create, manage and track all your QR codes
+            </div>
+            <div class=" signup-form-main">
+                <div class="row">
+                    <div class="col-12 col-md-6">               
+                        <mat-form-field class="w-100 qrname-input1" appearance="outline">
+                            <mat-label>First Name</mat-label>
+                            <input matInput type="text" class="" [(ngModel)]="signup.firstName">
+                            <mat-hint class="text-danger" *ngIf="requiredError && !signup.firstName">This is required</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-6">               
+                        <mat-form-field class="w-100 qrname-input1" appearance="outline">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput type="text" class="" [(ngModel)]="signup.lastName">
+                            <mat-hint class="text-danger" *ngIf="requiredError && !signup.lastName">This is required</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-form-field class="w-100 qrname-input1" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="text" class="" [(ngModel)]="signup.email" (input)="emailRegex(signup.email)">
+                    <mat-hint class="text-danger" *ngIf="requiredError && !signup.email">This is required</mat-hint>
+                    <mat-hint class="text-danger" *ngIf="emailRegexMsg  && signup.email">{{emailRegexMsg}}</mat-hint>
+                </mat-form-field>
+                
+                <mat-form-field class="w-100 qrname-input1" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" class="" [(ngModel)]="signup.password"  (input)="passwordRegex(signup.password)">
+                    <!-- <mat-hint *ngIf="!requiredError && !msg" class="">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number</mat-hint> -->
+                    <mat-hint class="text-danger" *ngIf="requiredError && !signup.password">This is required</mat-hint>              
+                    <mat-hint class="text-danger" *ngIf="passRegexMsg && signup.password">{{passRegexMsg}}</mat-hint>
+
+                </mat-form-field>
+                <button *ngIf="loading" class="w-100 mt-5 font-20 btn btn-primary ">
+                    <i *ngIf="loading" class="fas fa-circle-notch fa-spin"></i> SIGN UP
+                </button>
+                <button *ngIf="!loading" class="w-100 mt-5 font-20 btn btn-primary " (click)="signupFn()">SIGN UP </button>
+                <div *ngIf = "msg" class="mt-2 text-center text-danger"> {{msg}} </div>
+                <div *ngIf = "successMsg" class="mt-2 text-center"> {{successMsg}} <span class="ml-2 text-primary clickable" routerLink=""> Login</span> </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col"></div>
+</div>

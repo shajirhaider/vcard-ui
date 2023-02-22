@@ -116,10 +116,13 @@ export class InfoGatherComponent implements OnInit {
   uniqueQR = ""
   type = ""
   msg = ""
+  appName = environment.appName
+  userName = ""
 
   constructor(private elementRef: ElementRef, private clipboard: Clipboard, private api: ApiService, private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.userName = this.api.getUserName()
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.getSingleCard(id)
@@ -131,6 +134,10 @@ export class InfoGatherComponent implements OnInit {
     if(this.route.snapshot.paramMap.get('type') === 'view'){
       this.type = 'view'
     }
+  }
+
+  logout(){
+    this.api.logout()
   }
 
   getSingleCard(id) {

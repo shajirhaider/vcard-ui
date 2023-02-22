@@ -12,7 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatInputModule} from '@angular/material/input';
-
+import { MatMenuModule} from '@angular/material/menu';
 @NgModule({
   exports: [
     MatButtonModule,
@@ -28,7 +28,8 @@ import {MatInputModule} from '@angular/material/input';
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule
   ]
 })
 export class MyMaterialModule {}

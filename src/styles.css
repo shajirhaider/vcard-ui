@@ -6,7 +6,6 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 html,
@@ -18,9 +17,13 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: #EAEAEA;
-  color: #797d80;
-  font-size: 14px;
+  color: rgba(0,0,0,.87);;
   overflow-x: hidden;
+  font-size: 16px;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
 
 .row {
@@ -1430,11 +1433,8 @@ button.active:focus {
 }
 
 
-.mat-form-field-flex {
-  background: #fff !important;
-  padding: 5px !important;
-  color: black;
-  font-size: 20px;
+.mat-form-field-outline {
+  background: white;
 }
 
 .qr-manage-code {
@@ -1472,4 +1472,74 @@ button.active:focus {
   position: relative;
   margin: 0;
   height: auto;
+}
+
+.signup-form{
+  /* margin-top: 10%; */
+  background: white  /*#629AA9*/;
+  /* color: white; */
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.logo{
+  text-align: center;
+}
+
+.logo img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+  border: 1px solid gold;
+}
+
+.signup-text{
+  /* font-weight: 500; */
+  /* font-size: 22px; */
+  text-align: center;
+  margin-bottom: 10px;
+  color: #629AA9;
+}
+
+.signup-form-main{
+  background: white  /*#629AA9*/;
+  /* color: white; */
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.signup-form-text{
+  font-size: 30px;
+  /* border-bottom: 1px solid white; */
+  text-align: center;
+  margin-bottom: 10px;
+  color: #629AA9;
+  font-weight: 500;
+}
+
+.header-logo{
+  float: none;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  /* display: flex; */
+}
+
+.header-logo img{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid gold;
+  object-fit: cover;
+  object-position: center center;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.header-name{
+  position: absolute;
+  right: 10px;
 }

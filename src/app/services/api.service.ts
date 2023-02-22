@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -8,7 +9,23 @@ import { environment } from 'src/environments/environment';
 })
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router: Router) { }
+
+  getUserData(){
+    if(!sessionStorage.getItem('data')){return ""}
+    let ssData = sessionStorage.getItem('data')
+    return JSON.parse(ssData).uuid
+  }
+  getUserName(){
+    if(!sessionStorage.getItem('data')){return ""}
+    let ssData = JSON.parse(sessionStorage.getItem('data'))
+    return ssData.firstName + " " + ssData.lastName
+  }
+
+  logout(){   
+    sessionStorage.clear()
+    this.router.navigateByUrl('')
+  }
 
   getvcardData(id) {
     return this.http.get( environment.apiURL+"/api/qr/"+id);
@@ -16,7 +33,7 @@ export class ApiService {
 
   saveVcardData(data){
     let req = data
-    req.userID = 'shajir'
+    req.userID = this.getUserData()
     return this.http.post(environment.apiURL+"/api/add", req);
   }
 
@@ -26,14 +43,14 @@ export class ApiService {
 
   getVcardList(){
     let body = {
-      userID : "shajir"  
+      userID : this.getUserData()
     }  
     return this.http.post(environment.apiURL+"/api/getAll", body);
   }
 
   getSingleCard(id){
     let body = {
-      userID : "shajir",
+      userID :this.getUserData(),
       uuid : id
     }  
     return this.http.post(environment.apiURL+"/api/getSingleCard", body);
@@ -57,5 +74,14 @@ export class ApiService {
     }  
     return this.http.post(environment.apiURL+"/api/delete", body);
   }
+
+  signup(data){
+    return this.http.post(environment.apiURL+"/api/signup", data);
+  }
+
+  login(data){
+    return this.http.post(environment.apiURL+"/api/login", data);
+  }
+
   
 }
