@@ -11,6 +11,7 @@ import { NgxVcardModule } from "ngx-vcard";
 // import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { QRCodeModule } from 'angularx-qrcode';
 import { HttpClientModule } from '@angular/common/http';
+// import { WithGoogleAuthConfig, WithGoogleAuthInterceptor, WithGoogleAuthModule } from 'ngx-sign-in-with-google';
 
 import { LandingComponent } from './landing/landing.component';
 import { InfoGatherComponent } from './info-gather/info-gather.component';
@@ -39,7 +40,8 @@ import { SignupComponent } from './signup/signup.component';
     ImageCropperModule,
     NgxVcardModule,
     // NgxQRCodeModule,
-    QRCodeModule
+    QRCodeModule,
+    // WithGoogleAuthModule
     
   ],
   providers: [],

@@ -26,7 +26,13 @@
                 </div>
     
                 <button class="w-100 mt-2 font-20 btn btn-primary" (click)="login()"> <i *ngIf="loading" class="fas fa-circle-notch fa-spin"></i> LOG IN </button>
-                <div *ngIf = "msg" class="mt-2 text-center text-danger"> {{msg}} </div>    
+                <div *ngIf = "msg" class="mt-2 text-center text-danger"> {{msg}} </div> 
+                <div class="mt-3">
+                    <div class="display-flex">
+                        <div class="w-20"><hr></div> <div class="w-50 text-muted">OR</div><div class="w-20"><hr></div>
+                    </div>
+                    <div class="w-100" id="google-button"></div>
+                </div>
             </div>
 
         </div>   

@@ -49,6 +49,13 @@
                 <button *ngIf="!loading" class="w-100 mt-5 font-20 btn btn-primary " (click)="signupFn()">SIGN UP </button>
                 <div *ngIf = "msg" class="mt-2 text-center text-danger"> {{msg}} </div>
                 <div *ngIf = "successMsg" class="mt-2 text-center"> {{successMsg}} <span class="ml-2 text-primary clickable" routerLink=""> Login</span> </div>
+            
+                <div class="mt-3">
+                    <div class="display-flex">
+                        <div class="w-20"><hr></div> <div class="w-50 text-muted">OR</div><div class="w-20"><hr></div>
+                    </div>
+                    <div class="w-100" id="google-button-signup"></div>
+                </div>
             </div>
 
         </div>

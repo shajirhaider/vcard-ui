@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit,  NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { ApiService } from '../services/api.service';
+
+declare var google: any;
+
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, AfterViewInit {
 
   signup = {
     firstName: "",
@@ -21,9 +26,33 @@ export class SignupComponent implements OnInit {
   passRegexMsg = ""
   emailRegexMsg = ""
 
-  constructor(private api: ApiService,) { }
 
-  ngOnInit(): void {
+  constructor(private api: ApiService, private ngZone: NgZone, private router: Router) { }
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    const gAccounts = google.accounts;
+
+    gAccounts.id.initialize({
+      client_id: environment.gClientID,
+      ux_mode: 'popup',
+      cancel_on_tap_outside: true,
+      callback: ({ credential }) => {
+        this.ngZone.run(() => {
+          this._loginWithGoogle(credential);
+        });
+      },
+    });
+
+    gAccounts.id.renderButton(document.getElementById('google-button-signup') as HTMLElement, {
+      size: 'large',
+      theme : "filled_blue",
+      type : "standard",
+      text: 'signup_with',
+      width : 600
+
+    });
   }
 
   passwordRegex(password: any) {
@@ -32,7 +61,7 @@ export class SignupComponent implements OnInit {
     if (regex.test(password)) {
       this.passRegexMsg = ""
     } else {
-      this.passRegexMsg = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"      
+      this.passRegexMsg = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
     }
   }
 
@@ -60,6 +89,19 @@ export class SignupComponent implements OnInit {
         this.successMsg = data["msg"]
       }
     });
+  }
+
+  _loginWithGoogle(token: string) {
+    this.api.signupWithGoogle(token).subscribe(data =>{
+      if (data["success"] == false) {
+        this.msg = data["msg"]
+      } else {
+        this.successMsg = data["msg"]
+        sessionStorage.setItem('data', JSON.stringify(data["data"]))
+        this.router.navigateByUrl('/vcards')
+      }
+
+    })
   }
 
 }

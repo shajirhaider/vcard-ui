@@ -7,6 +7,7 @@ export const environment = {
   apiURL : "http://localhost:3000",
   domain : "http://localhost:4200",
   appName : "MEEEMZ",
+  'gClientID' : "798551186797-7ufp70425v4vq3uvruh3aofh1g58c33q.apps.googleusercontent.com"
 };
 
 /*

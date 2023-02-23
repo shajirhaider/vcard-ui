@@ -24,6 +24,7 @@
     "html2canvas": "^1.4.1",
     "ngx-color-picker": "^13.0.0",
     "ngx-image-cropper": "^6.2.2",
+    "ngx-sign-in-with-google": "^0.1.4",
     "ngx-vcard": "^4.1.14",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

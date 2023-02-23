@@ -83,5 +83,9 @@ export class ApiService {
     return this.http.post(environment.apiURL+"/api/login", data);
   }
 
+  signupWithGoogle(data){
+    return this.http.post(environment.apiURL+"/api/loginWithGoogle", {"token":data});
+  }
+
   
 }
