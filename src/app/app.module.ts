@@ -19,6 +19,7 @@ import { VCardComponent } from './v-card/v-card.component';
 import { CardListComponent } from './card-list/card-list.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,8 @@ import { SignupComponent } from './signup/signup.component';
     VCardComponent,
     CardListComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -9,83 +9,114 @@ import { Router } from '@angular/router';
 })
 export class ApiService {
 
-  constructor(private http: HttpClient,private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  getUserData(){
-    if(!sessionStorage.getItem('data')){return ""}
+  getUserData() {
+    if (!sessionStorage.getItem('data')) { return "" }
     let ssData = sessionStorage.getItem('data')
     return JSON.parse(ssData).uuid
   }
-  getUserName(){
-    if(!sessionStorage.getItem('data')){return ""}
+  getUserName() {
+    if (!sessionStorage.getItem('data')) { return "" }
     let ssData = JSON.parse(sessionStorage.getItem('data'))
     return ssData.firstName + " " + ssData.lastName
   }
 
-  logout(){   
+  logout() {
     sessionStorage.clear()
     this.router.navigateByUrl('')
   }
 
   getvcardData(id) {
-    return this.http.get( environment.apiURL+"/api/qr/"+id);
+    return this.http.get(environment.apiURL + "/api/qr/" + id);
   }
 
-  saveVcardData(data){
+  saveVcardData(data) {
     let req = data
     req.userID = this.getUserData()
-    return this.http.post(environment.apiURL+"/api/add", req);
+    return this.http.post(environment.apiURL + "/api/add", req);
   }
 
-  updateVcardData(data){
-    return this.http.post(environment.apiURL+"/api/update", data);
+  updateVcardData(data) {
+    return this.http.post(environment.apiURL + "/api/update", data);
   }
 
-  getVcardList(){
+  getVcardList() {
     let body = {
-      userID : this.getUserData()
-    }  
-    return this.http.post(environment.apiURL+"/api/getAll", body);
+      userID: this.getUserData()
+    }
+    return this.http.post(environment.apiURL + "/api/getAll", body);
   }
 
-  getSingleCard(id){
+  getSingleCard(id) {
     let body = {
-      userID :this.getUserData(),
-      uuid : id
-    }  
-    return this.http.post(environment.apiURL+"/api/getSingleCard", body);
+      userID: this.getUserData(),
+      uuid: id
+    }
+    return this.http.post(environment.apiURL + "/api/getSingleCard", body);
   }
-  getAllSocialMedia(id){
+  getAllSocialMedia(id) {
     let body = {
-      uuid : id
-    }  
-    return this.http.post(environment.apiURL+"/api/getAllSocialMedia", body);
-  }  
-  getvCard(id){
+      uuid: id
+    }
+    return this.http.post(environment.apiURL + "/api/getAllSocialMedia", body);
+  }
+  getvCard(id) {
     let body = {
-      qrCodeValue : id
-    }  
-    return this.http.post(environment.apiURL+"/api/getvCard", body);
+      qrCodeValue: id
+    }
+    return this.http.post(environment.apiURL + "/api/getvCard", body);
   }
 
-  deleteCard(id){
+  deleteCard(id) {
     let body = {
-      uuid : id
-    }  
-    return this.http.post(environment.apiURL+"/api/delete", body);
+      uuid: id
+    }
+    return this.http.post(environment.apiURL + "/api/delete", body);
   }
 
-  signup(data){
-    return this.http.post(environment.apiURL+"/api/signup", data);
+  signup(data) {
+    return this.http.post(environment.apiURL + "/api/signup", data);
   }
 
-  login(data){
-    return this.http.post(environment.apiURL+"/api/login", data);
+  login(data) {
+    return this.http.post(environment.apiURL + "/api/login", data);
   }
 
-  signupWithGoogle(data){
-    return this.http.post(environment.apiURL+"/api/loginWithGoogle", {"token":data});
+  signupWithGoogle(data) {
+    return this.http.post(environment.apiURL + "/api/loginWithGoogle", { "token": data });
   }
 
-  
+
+  isUserExists(email) {
+    return this.http.post(environment.apiURL + "/api/isUserExists", { "email": email });
+  }
+
+  sendForgetPassMail(email, uuid, firstName, lastName) {
+    let payload = {
+      email: email,
+      uuid: uuid,
+      firstName : firstName,
+      lastName : lastName
+    }
+    return this.http.post(environment.apiURL + "/api/sendForgetPassMail", payload);
+  }
+
+  validateForgetToken(tempPassword, uuid) {
+    let payload = {
+      tempPassword: tempPassword,
+      uuid: uuid
+    }
+    return this.http.post(environment.apiURL + "/api/validateForgetToken", payload);
+  }
+
+  updatePassword(password, uuid) {
+    let payload = {
+      password: password,
+      uuid: uuid
+    }
+    return this.http.post(environment.apiURL + "/api/updatePassword", payload);
+  }
+
+
 }

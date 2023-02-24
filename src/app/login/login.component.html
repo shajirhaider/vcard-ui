@@ -14,17 +14,18 @@
             <div class=" signup-form-main">
                 <mat-form-field class="w-100 qrname-input1" appearance="outline">
                     <mat-label>Email</mat-label>
-                    <input matInput type="text" class="" [(ngModel)]="loginobj.username">
+                    <input matInput type="text" class="" [(ngModel)]="loginobj.username">  
+                    <mat-hint class="text-danger" *ngIf="requiredError && !loginobj.username">This is required</mat-hint>
+                    <mat-hint class="text-danger" *ngIf="emailRegexMsg  && loginobj.username">{{emailRegexMsg}}</mat-hint>   
                 </mat-form-field>
                 
                 <mat-form-field class="w-100 qrname-input1" appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input matInput type="password" class="" [(ngModel)]="loginobj.password">
-                </mat-form-field>
-                <div class="text-right text-primary clickable">
-                    forgot password?
-                </div>
-    
+                    <input matInput type="password" class="" [(ngModel)]="loginobj.password">               
+                    <mat-hint class="text-danger" *ngIf="requiredError && !loginobj.password">This is required</mat-hint>    
+                    <mat-hint class="text-danger" *ngIf="passRegexMsg && loginobj.password">{{passRegexMsg}}</mat-hint>  
+                </mat-form-field>        
+
                 <button class="w-100 mt-2 font-20 btn btn-primary" (click)="login()"> <i *ngIf="loading" class="fas fa-circle-notch fa-spin"></i> LOG IN </button>
                 <div *ngIf = "msg" class="mt-2 text-center text-danger"> {{msg}} </div> 
                 <div class="mt-3">
@@ -32,7 +33,11 @@
                         <div class="w-20"><hr></div> <div class="w-50 text-muted">OR</div><div class="w-20"><hr></div>
                     </div>
                     <div class="w-100" id="google-button"></div>
+                </div>                
+                <div class="text-center text-primary clickable mt-2" routerLink="/forgetPassword">
+                    forgot password?
                 </div>
+    
             </div>
 
         </div>   

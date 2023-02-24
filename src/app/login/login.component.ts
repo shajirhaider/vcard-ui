@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit , AfterViewInit  {
   msg = ""
   successMsg = ""
   requiredError = false
+  passRegexMsg = ""
+  emailRegexMsg = ""
 
   constructor(private api: ApiService, private router: Router, private ngZone: NgZone) { }
 
@@ -48,10 +50,33 @@ export class LoginComponent implements OnInit , AfterViewInit  {
     });
   }
 
+  
+
+  passwordRegex(password: any) {
+    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+    if (regex.test(password)) {
+      this.passRegexMsg = ""
+    } else {
+      this.passRegexMsg = "Password is invalid"
+    }
+  }
+
+  emailRegex(email) {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (regex.test(email)) {
+      this.emailRegexMsg = ""
+    } else {
+      this.emailRegexMsg = "Email is invalid";
+    }
+  }
+
 
   login() {
     this.msg = this.successMsg = ""
-    if (!this.loginobj.username || !this.loginobj.password) {
+    this.passwordRegex(this.loginobj.password)
+    this.emailRegex(this.loginobj.username)
+    if (!this.loginobj.username || !this.loginobj.password || this.emailRegexMsg || this.passRegexMsg) {
       this.requiredError = true
       return
     }
