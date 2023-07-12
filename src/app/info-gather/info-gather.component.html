@@ -609,8 +609,8 @@
                                 <span *ngIf="!accokownledged" class="border px-2 clickable">Copy</span>
                                 <span *ngIf="accokownledged" class="border px-2 clickable" (click)="copyText(qrCodeValue)">Copy</span>
                             </div>
-                            <small *ngIf="iscopyed && accokownledged" >Text copied to clipboard</small>      
-                            <small *ngIf="!iscopyed && !accokownledged" >Save VCard to copy URL</small>                       
+                            <small *ngIf="iscopyed && accokownledged" class="text-success" >Text copied to clipboard</small>      
+                            <small *ngIf="!iscopyed && !accokownledged" class="text-info" >Save VCard to copy URL</small>                       
                         </div>
 
                         <div class="col-12 mt-5">

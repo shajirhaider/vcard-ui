@@ -146,7 +146,8 @@ export class InfoGatherComponent implements OnInit {
         let res: any = data
         this.userInfo = res
         this.userInfo.selectedSM = []
-        this.qrCodeValue = res["qrCodeValue"]
+        this.qrCodeValue = environment.domain + "/qr/" + res["qrCodeValue"];
+        // this.qrCodeValue = res["qrCodeValue"]
         this.croppedImage = this.userInfo.image
         this.getAllSocialMedia(this.userInfo.uuid)
       });

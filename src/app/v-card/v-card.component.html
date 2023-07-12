@@ -37,7 +37,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-4 py-2 vc-btn" *ngIf="userInfo.address"  [style.background]="userInfo.primaryColor" >
+                    <div class="col-4 py-2 vc-btn" *ngIf="userInfo.address"  [style.background]="userInfo.primaryColor" (click)="gotoLocation()" >
                         <div class="vc-btn-icon ">                        
                             <a (click)="gotoLocation()">                                
                                 <mat-icon aria-hidden="false" fontIcon="location_on"></mat-icon>
@@ -111,7 +111,8 @@
                         <mat-icon aria-hidden="false" fontIcon="location_on"></mat-icon>    
                     </div>
                     <div class="col-9 border-bottom py-3">
-                    <div>{{userInfo.address}}</div> 
+                        <div>{{userInfo.address}}</div> 
+                        <div class="text-error mt-2 clickable" (click)="gotoLocation()">Show On Map</div>
                     </div>
                     <div class="col-1"></div>
                 </div>       
